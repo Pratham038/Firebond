@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const MyComponent = () => {
-  const [inputs, setInputs] = useState([{ variableName: '', dropdownValue: 'false' }]);
+  const [inputs, setInputs] = useState([{ variableName: 'Myarg', dropdownValue: 'false' }]);
   const [selectedInput, setSelectedInput] = useState('');
 
   const handleAddInput = () => {
@@ -22,7 +22,15 @@ const MyComponent = () => {
 
   const handleSelectChange = (e) => {
     setSelectedInput(e.target.value);
-  }
+  };
+
+  const getLastDropdownValue = () => {
+    if (selectedInput) {
+      const selectedValues = selectedInput.split(':');
+      return selectedValues[1];
+    }
+    return '';
+  };
 
   return (
     <div>
@@ -58,6 +66,7 @@ const MyComponent = () => {
         ))}
       </select>
       <button onClick={handleAddInput}>Add Input</button>
+      <div>Last Dropdown Value: {getLastDropdownValue()}</div>
     </div>
   );
 };
