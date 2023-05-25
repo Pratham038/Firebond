@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 const MyComponent = () => {
   const [inputs, setInputs] = useState([{ variableName: '', dropdownValue: 'false' }]);
   const [selectedInput, setSelectedInput] = useState('');
+  const [showSelectedValues, setShowSelectedValues] = useState(false);
 
   const handleAddInput = () => {
     setInputs([...inputs, { variableName: '', dropdownValue: 'false' }]);
@@ -22,7 +23,8 @@ const MyComponent = () => {
 
   const handleSelectChange = (e) => {
     setSelectedInput(e.target.value);
-  }
+    setShowSelectedValues(true);
+  };
 
   return (
     <div>
@@ -50,13 +52,25 @@ const MyComponent = () => {
           <hr />
         </div>
       ))}
-      <select value={selectedInput} onChange={handleSelectChange}>
-        {inputs.map((input, index) => (
-          <option key={index} value={`${input.variableName}:${input.dropdownValue}`}>
-            {input.variableName} - {input.dropdownValue}
+      {showSelectedValues ? (
+        <div>
+          Selected Input:
+          <div>
+            {selectedInput.split(':')[0]} - {selectedInput.split(':')[1]}
+          </div>
+        </div>
+      ) : (
+        <select value={selectedInput} onChange={handleSelectChange}>
+          <option disabled value="">
+            Select
           </option>
-        ))}
-      </select>
+          {inputs.map((input, index) => (
+            <option key={index} value={`${input.variableName}:${input.dropdownValue}`}>
+              {input.variableName} - {input.dropdownValue}
+            </option>
+          ))}
+        </select>
+      )}
       <button onClick={handleAddInput}>Add Input</button>
     </div>
   );
