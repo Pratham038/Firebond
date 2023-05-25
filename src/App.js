@@ -65,6 +65,9 @@ const MyComponent = () => {
           </option>
         ))}
       </select>
+      <br/>
+      <br/>
+
       <button onClick={handleAddInput}>Add Input</button>
       <div>Last Dropdown Value: {getLastDropdownValue()}</div>
     </div>
