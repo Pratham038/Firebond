@@ -1,10 +1,7 @@
-import React, { useState } from 'react';
-
 const MyComponent = () => {
   const [inputs, setInputs] = useState([{ variableName: 'Myarg', dropdownValue: 'false' }]);
   const [selectedInput, setSelectedInput] = useState('');
   const [resetDropdown, setResetDropdown] = useState(true);
-  const [result, setResult] = useState('');
 
   const handleAddInput = () => {
     setInputs([...inputs, { variableName: '', dropdownValue: 'false' }]);
@@ -40,21 +37,13 @@ const MyComponent = () => {
     setResetDropdown(true);
   };
 
-  const performAndOperation = () => {
-    const variableName1 = document.getElementById('variableName1').value;
-    const variableName2 = document.getElementById('variableName2').value;
-    // Perform the AND operation on variableName1 and variableName2
-    const result = variableName1 && variableName2;
-    setResult(result.toString());
-  };
-
   const renderAdditionalDropdowns = () => {
     if (selectedInput === 'and' || selectedInput === 'or') {
       return (
         <>
           <label>
             Variable Name 1:
-            <select id="variableName1">
+            <select>
               {inputs.map((input, index) => (
                 <option key={index} value={input.variableName}>
                   {input.variableName}
@@ -65,7 +54,7 @@ const MyComponent = () => {
           <br />
           <label>
             Variable Name 2:
-            <select id="variableName2">
+            <select>
               {inputs.map((input, index) => (
                 <option key={index} value={input.variableName}>
                   {input.variableName}
@@ -73,12 +62,6 @@ const MyComponent = () => {
               ))}
             </select>
           </label>
-          <br />
-          <button onClick={performAndOperation}>Perform AND Operation</button>
-          <br />
-          <br />
-          Result: {result}
-          <br />
           <br />
         </>
       );
@@ -114,25 +97,25 @@ const MyComponent = () => {
       ))}
       {renderAdditionalDropdowns()}
       <select value={selectedInput} onChange={handleSelectChange}>
-      {inputs.map((input, index) => (
-    <option key={index} value={`${input.variableName}:${input.dropdownValue}`}>
-      {input.variableName} - {input.dropdownValue}
-    </option>
-  ))}
-  <option value="">Select</option>
-  <option value="and">AND</option>
-  <option value="or">OR</option>
-</select>
-<button onClick={handleResetDropdown} disabled={!selectedInput && resetDropdown}>
-  Reset Dropdown
-</button>
-<br />
-<br />
-<button onClick={handleAddInput}>Add Input</button>
-<div>Last Dropdown Value: {getLastDropdownValue()}</div>
-</div>
-);
+        {inputs.map((input, index) => (
+          <option key={index} value={`${input.variableName}:${input.dropdownValue}`}>
+            {input.variableName} - {input.dropdownValue}
+          </option>
+        ))}
+        <option value="">Select</option>
+        <option value="and">AND</option>
+        <option value="or">OR</option>
+      </select>
+      <button onClick={handleResetDropdown} disabled={!selectedInput && resetDropdown}>
+        Reset Dropdown
+      </button>
+      <br />
+      <br />
+      <button onClick={handleAddInput}>Add Input</button>
+      <div>Last Dropdown Value: {getLastDropdownValue()}</div>
+    </div>
+  );
 };
 
-export default MyComponent;
-
+export default MyComponent; now in the last line , show boolean value
+, if and is selected perform and operation on values of Variable Name 1 and Variable Name 2 ,if or is selected perform or operation on values of Variable Name 1 and Variable Name 2 
