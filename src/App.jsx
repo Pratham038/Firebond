@@ -4,7 +4,6 @@ const MyComponent = () => {
   const [inputs, setInputs] = useState([{ variableName: 'Myarg', dropdownValue: 'false' }]);
   const [selectedInput, setSelectedInput] = useState('');
   const [resetDropdown, setResetDropdown] = useState(true);
-  const [result, setResult] = useState('');
 
   const handleAddInput = () => {
     setInputs([...inputs, { variableName: '', dropdownValue: 'false' }]);
@@ -40,21 +39,13 @@ const MyComponent = () => {
     setResetDropdown(true);
   };
 
-  const performAndOperation = () => {
-    const variableName1 = document.getElementById('variableName1').value;
-    const variableName2 = document.getElementById('variableName2').value;
-    // Perform the AND operation on variableName1 and variableName2
-    const result = variableName1 && variableName2;
-    setResult(result.toString());
-  };
-
   const renderAdditionalDropdowns = () => {
     if (selectedInput === 'and' || selectedInput === 'or') {
       return (
         <>
           <label>
             Variable Name 1:
-            <select id="variableName1">
+            <select>
               {inputs.map((input, index) => (
                 <option key={index} value={input.variableName}>
                   {input.variableName}
@@ -65,7 +56,7 @@ const MyComponent = () => {
           <br />
           <label>
             Variable Name 2:
-            <select id="variableName2">
+            <select>
               {inputs.map((input, index) => (
                 <option key={index} value={input.variableName}>
                   {input.variableName}
@@ -74,14 +65,26 @@ const MyComponent = () => {
             </select>
           </label>
           <br />
-          <button onClick={performAndOperation}>Perform AND Operation</button>
-          <br />
-          <br />
-          Result: {result}
-          <br />
-          <br />
         </>
       );
+    }
+    return null;
+  };
+
+  const performOperation = () => {
+    if (selectedInput === 'and') {
+      const variableName1 = inputs[0]?.dropdownValue === 'true';
+      const variableName2 = inputs[1]?.dropdownValue === 'true';
+      // Perform AND operation on variableName1 and variableName2
+      const result = variableName1 && variableName2;
+      return result.toString(); // Return true or false as a string
+    }
+    if (selectedInput === 'or') {
+      const variableName1 = inputs[0]?.dropdownValue === 'true';
+      const variableName2 = inputs[1]?.dropdownValue === 'true';
+      // Perform OR operation on variableName1 and variableName2
+      const result = variableName1 || variableName2;
+      return result.toString(); // Return true or false as a string
     }
     return null;
   };
@@ -112,27 +115,27 @@ const MyComponent = () => {
           <hr />
         </div>
       ))}
-      {renderAdditionalDropdowns()}
+     {renderAdditionalDropdowns()}
       <select value={selectedInput} onChange={handleSelectChange}>
-      {inputs.map((input, index) => (
-    <option key={index} value={`${input.variableName}:${input.dropdownValue}`}>
-      {input.variableName} - {input.dropdownValue}
-    </option>
-  ))}
-  <option value="">Select</option>
-  <option value="and">AND</option>
-  <option value="or">OR</option>
-</select>
-<button onClick={handleResetDropdown} disabled={!selectedInput && resetDropdown}>
-  Reset Dropdown
-</button>
-<br />
-<br />
-<button onClick={handleAddInput}>Add Input</button>
-<div>Last Dropdown Value: {getLastDropdownValue()}</div>
-</div>
-);
+        {inputs.map((input, index) => (
+          <option key={index} value={`${input.variableName}:${input.dropdownValue}`}>
+            {input.variableName} - {input.dropdownValue}
+          </option>
+        ))}
+        <option value="">Select</option>
+        <option value="and">AND</option>
+        <option value="or">OR</option>
+      </select>
+      <button onClick={handleResetDropdown} disabled={!selectedInput && resetDropdown}>
+        Reset Dropdown
+      </button>
+      <br />
+      <br />
+      <button onClick={handleAddInput}>Add Input</button>
+      {/* <div>Last Dropdown Value: {getLastDropdownValue()}</div> */}
+      <div>Result: {performOperation()}</div>
+    </div>
+  );
 };
 
 export default MyComponent;
-
