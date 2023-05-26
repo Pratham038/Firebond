@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './styles.css';
 
 const MyComponent = () => {
   const [inputs, setInputs] = useState([{ variableName: 'Myarg', dropdownValue: 'false' }]);
@@ -43,28 +44,26 @@ const MyComponent = () => {
     if (selectedInput === 'and' || selectedInput === 'or') {
       return (
         <>
-          <label>
-            Variable Name 1:
-            <select>
+          <div className="input-group">
+            <label className="label">Variable Name 1:</label>
+            <select className="dropdown">
               {inputs.map((input, index) => (
                 <option key={index} value={input.variableName}>
                   {input.variableName}
                 </option>
               ))}
             </select>
-          </label>
-          <br />
-          <label>
-            Variable Name 2:
-            <select>
+          </div>
+          <div className="input-group">
+            <label className="label">Variable Name 2:</label>
+            <select className="dropdown">
               {inputs.map((input, index) => (
                 <option key={index} value={input.variableName}>
                   {input.variableName}
                 </option>
               ))}
             </select>
-          </label>
-          <br />
+          </div>
         </>
       );
     }
@@ -90,33 +89,31 @@ const MyComponent = () => {
   };
 
   return (
-    <div>
+    <div className="container">
       {inputs.map((input, index) => (
-        <div key={index}>
-          <label>
-            Variable Name:
-            <input
-              type="text"
-              value={input.variableName}
-              onChange={(e) => handleVariableNameChange(e, index)}
-            />
-          </label>
+        <div className="input-group" key={index}>
+          <label className="label">Variable Name:</label>
+          <input
+            type="text"
+            className="input-field"
+            value={input.variableName}
+            onChange={(e) => handleVariableNameChange(e, index)}
+          />
           <br />
-          <label>
-            Dropdown:
-            <select
-              value={input.dropdownValue}
-              onChange={(e) => handleDropdownChange(e, index)}
-            >
-              <option value="true">True</option>
-              <option value="false">False</option>
-            </select>
-          </label>
+          <label className="label">Dropdown:</label>
+          <select
+            className="dropdown"
+            value={input.dropdownValue}
+            onChange={(e) => handleDropdownChange(e, index)}
+          >
+            <option value="true">True</option>
+            <option value="false">False</option>
+          </select>
           <hr />
         </div>
       ))}
-     {renderAdditionalDropdowns()}
-      <select value={selectedInput} onChange={handleSelectChange}>
+      {renderAdditionalDropdowns()}
+      <select className="dropdown" value={selectedInput} onChange={handleSelectChange}>
         {inputs.map((input, index) => (
           <option key={index} value={`${input.variableName}:${input.dropdownValue}`}>
             {input.variableName} - {input.dropdownValue}
@@ -126,14 +123,14 @@ const MyComponent = () => {
         <option value="and">AND</option>
         <option value="or">OR</option>
       </select>
-      <button onClick={handleResetDropdown} disabled={!selectedInput && resetDropdown}>
+      <button className="button" onClick={handleResetDropdown} disabled={!selectedInput && resetDropdown}>
         Reset Dropdown
       </button>
       <br />
       <br />
-      <button onClick={handleAddInput}>Add Input</button>
+      <button className="button" onClick={handleAddInput}>Add Input</button>
       {/* <div>Last Dropdown Value: {getLastDropdownValue()}</div> */}
-      <div>Result: {performOperation()}</div>
+      <div className="result">Result: {performOperation()}</div>
     </div>
   );
 };
